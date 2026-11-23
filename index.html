@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Adviento Navideño ❤️</title>
+    <!-- Tailwind CSS para diseño responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tipografías navideñas y elegantes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Great+Vibes&family=Mountains+of+Christmas:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Paleta de colores navideños: Azul invierno, Rojo carmesí, Verde pino y Blanco crema */
+        :root {
+            --azul-noche: #0b2239;
+            --azul-invierno: #102e4a;
+            --rojo-navidad: #c62828;
+            --rojo-oscuro: #8e1919;
+            --verde-pino: #1b5e20;
+            --verde-bosque: #2e7d32;
+            --blanco-crema: #fffdf7;
+            --papel-antiguo: #f8f4e8;
+            --dorado-suave: #d4af37;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #163d63 0%, var(--azul-invierno) 45%, var(--azul-noche) 100%);
+            color: var(--blanco-crema);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Tipografías temáticas con respaldos seguros */
+        .font-navidad-cursiva {
+            font-family: 'Great Vibes', 'Brush Script MT', cursive;
+        }
+
+        .font-navidad-titulo {
+            font-family: 'Mountains of Christmas', 'Georgia', serif;
+        }
+
+        .font-serif-elegante {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+        }
+
+        /* Copos de nieve animados puramente en CSS (sin bloqueos de renderizado) */
+        .snowflakes-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 255, 255, 0.75);
+            user-select: none;
+            animation-name: snowfall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-20px) translateX(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(50vh) translateX(18px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(105vh) translateX(-12px) rotate(360deg);
+            }
+        }
+
+        /* Diseño de Sello Postal Navideño con bordes dentados/perforados */
+        .stamp-wrapper {
+            filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+        }
+
+        .stamp-wrapper:hover {
+            transform: translateY(-6px) rotate(-1deg);
+            filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.6));
+        }
+
+        .stamp-wrapper:nth-child(even):hover {
+            transform: translateY(-6px) rotate(1.2deg);
+        }
+
+        .postage-stamp {
+            position: relative;
+            background-color: var(--blanco-crema);
+            /* Borde perforado clásico de sello postal mediante radial-gradient */
+            background-image: 
+                radial-gradient(circle at 8px 0px, var(--azul-invierno) 4.5px, transparent 5px),
+                radial-gradient(circle at 8px 100%, var(--azul-invierno) 4.5px, transparent 5px),
+                radial-gradient(circle at 0px 8px, var(--azul-invierno) 4.5px, transparent 5px),
+                radial-gradient(circle at 100% 8px, var(--azul-invierno) 4.5px, transparent 5px);
+            background-size: 16px 10px, 16px 10px, 10px 16px, 10px 16px;
+            background-position: top left, bottom left, top left, top right;
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+            padding: 11px;
+            border-radius: 3px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Marco interior del sello */
+        .stamp-inner {
+            border: 2px solid;
+            border-radius: 4px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            padding: 10px;
+            background: linear-gradient(145deg, var(--blanco-crema) 0%, var(--papel-antiguo) 100%);
+        }
+
+        /* Variantes de color para los sellos (Rojo carmesí, Verde pino y Blanco crema/Azul) */
+        .theme-red .stamp-inner {
+            border-color: var(--rojo-navidad);
+            color: var(--rojo-oscuro);
+        }
+        .theme-red .stamp-badge {
+            background-color: var(--rojo-navidad);
+            color: var(--blanco-crema);
+        }
+
+        .theme-green .stamp-inner {
+            border-color: var(--verde-pino);
+            color: var(--verde-pino);
+        }
+        .theme-green .stamp-badge {
+            background-color: var(--verde-pino);
+            color: var(--blanco-crema);
+        }
+
+        .theme-cream .stamp-inner {
+            border-color: var(--azul-invierno);
+            color: var(--azul-noche);
+            background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+        }
+        .theme-cream .stamp-badge {
+            background-color: var(--azul-invierno);
+            color: var(--blanco-crema);
+        }
+
+        /* Estado bloqueado visualmente sutil */
+        .stamp-locked .stamp-inner {
+            opacity: 0.92;
+        }
+
+        /* Animación de sacudida cuando intenta abrir un día futuro */
+        @keyframes shakeStamp {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            15% { transform: translateX(-7px) rotate(-3deg); }
+            30% { transform: translateX(7px) rotate(3deg); }
+            45% { transform: translateX(-6px) rotate(-2deg); }
+            60% { transform: translateX(6px) rotate(2deg); }
+            75% { transform: translateX(-3px) rotate(-1deg); }
+            90% { transform: translateX(3px) rotate(1deg); }
+        }
+
+        .shake-animation {
+            animation: shakeStamp 0.55s ease-in-out;
+        }
+
+        /* Matasellos circular decorativo */
+        .postmark {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.22;
+            transform: rotate(-14deg);
+        }
+
+        /* Sello de "Abierto" cuando ya fue leído */
+        .opened-seal {
+            position: absolute;
+            bottom: 28px;
+            right: 6px;
+            border: 2px dashed var(--rojo-navidad);
+            color: var(--rojo-navidad);
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 2px 5px;
+            border-radius: 4px;
+            transform: rotate(-12deg);
+            background-color: rgba(255, 253, 247, 0.92);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            z-index: 10;
+        }
+
+        /* Postal modal abierta con borde estilo correo aéreo navideño */
+        .postcard-modal {
+            background-color: var(--blanco-crema);
+            background-image: radial-gradient(#d6cbb8 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+            border: 8px solid transparent;
+            border-image: repeating-linear-gradient(
+                -45deg,
+                #c62828 0px,
+                #c62828 12px,
+                #fffdf7 12px,
+                #fffdf7 24px,
+                #1b5e20 24px,
+                #1b5e20 36px,
+                #fffdf7 36px,
+                #fffdf7 48px
+            ) 12;
+        }
+
+        /* Animación de notificación Toast */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        .toast-enter {
+            animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="selection:bg-red-700 selection:text-white">
+
+    <!-- Contenedor de copos de nieve en CSS -->
+    <div id="snowflakes-container" class="snowflakes-container" aria-hidden="true"></div>
+
+    <!-- Contenedor Principal -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24">
+        
+        <!-- Encabezado Navideño -->
+        <header class="text-center mb-10 sm:mb-14">
+            <!-- Adorno superior SVG: Muérdago, bayas rojas, campanas doradas y estrellas -->
+            <div class="flex justify-center items-center gap-3 mb-2">
+                <!-- Estrella izquierda -->
+                <svg class="w-6 h-6 text-amber-300 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 7.4h7.6l-6.2 4.5 2.4 7.4-6.2-4.5-6.2 4.5 2.4-7.4-6.2-4.5h7.6z"/>
+                </svg>
+                
+                <!-- Ilustración de Acebo y Campanas -->
+                <svg class="w-24 h-14" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Hojas de acebo izquierda -->
+                    <path d="M58 28C45 14 26 16 18 28C28 32 34 38 42 44C49 38 54 33 58 28Z" fill="#1b5e20" stroke="#052e16" stroke-width="1.5"/>
+                    <path d="M26 23L34 28M36 22L43 29" stroke="#86efac" stroke-width="1.2" stroke-linecap="round"/>
+                    <!-- Hojas de acebo derecha -->
+                    <path d="M62 28C75 14 94 16 102 28C92 32 86 38 78 44C71 38 66 33 62 28Z" fill="#2e7d32" stroke="#052e16" stroke-width="1.5"/>
+                    <path d="M94 23L86 28M84 22L77 29" stroke="#86efac" stroke-width="1.2" stroke-linecap="round"/>
+                    <!-- Campana dorada izquierda -->
+                    <path d="M46 32C40 35 37 45 34 52H56C53 45 50 35 46 32Z" fill="#fbbf24" stroke="#92400e" stroke-width="1.5"/>
+                    <circle cx="45" cy="54" r="3" fill="#b45309"/>
+                    <!-- Campana dorada derecha -->
+                    <path d="M74 32C70 35 67 45 64 52H86C83 45 80 35 74 32Z" fill="#f59e0b" stroke="#92400e" stroke-width="1.5"/>
+                    <circle cx="75" cy="54" r="3" fill="#b45309"/>
+                    <!-- Lazo rojo y bayas -->
+                    <path d="M60 27C52 18 44 22 48 30C51 34 57 31 60 27Z" fill="#c62828"/>
+                    <path d="M60 27C68 18 76 22 72 30C69 34 63 31 60 27Z" fill="#c62828"/>
+                    <circle cx="60" cy="28" r="4.5" fill="#ef4444" stroke="#7f1d1d" stroke-width="1.2"/>
+                    <circle cx="55" cy="33" r="3.5" fill="#c62828" stroke="#7f1d1d" stroke-width="1"/>
+                    <circle cx="65" cy="33" r="3.5" fill="#c62828" stroke="#7f1d1d" stroke-width="1"/>
+                </svg>
+
+                <!-- Estrella derecha -->
+                <svg class="w-6 h-6 text-amber-300 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l2.4 7.4h7.6l-6.2 4.5 2.4 7.4-6.2-4.5-6.2 4.5 2.4-7.4-6.2-4.5h7.6z"/>
+                </svg>
+            </div>
+
+            <!-- Título Principal en tipografía navideña -->
+            <h1 class="font-navidad-titulo text-5xl sm:text-6xl md:text-7xl font-bold tracking-wide text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+                Calendario de Adviento
+            </h1>
+            
+            <!-- Subtítulo romántico -->
+            <p class="font-navidad-cursiva text-3xl sm:text-4xl text-red-300 mt-1 drop-shadow">
+                24 cartas de amor esperando por ti esta Navidad
+            </p>
+
+            <!-- Barra de estado / Progreso -->
+            <div class="mt-5 inline-flex flex-wrap items-center justify-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 text-xs sm:text-sm text-blue-100 shadow-lg">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                    <span id="current-date-display">Cargando fecha...</span>
+                </span>
+                <span class="text-white/30">|</span>
+                <span id="opened-counter" class="font-semibold text-amber-200">0 de 24 sellos abiertos</span>
+            </div>
+        </header>
+
+        <!-- Cuadrícula de los 24 Sellos Postales -->
+        <main>
+            <div id="calendar-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                <!-- Los 24 sellos se generan dinámicamente desde JavaScript -->
+            </div>
+        </main>
+
+        <!-- Pie de página romántico -->
+        <footer class="mt-14 text-center text-blue-200/75 text-sm font-serif-elegante italic">
+            <p>Hecho con todo mi corazón para contar contigo los días hasta Navidad ✨</p>
+        </footer>
+    </div>
+
+    <!-- Botón discreto en la esquina inferior para la creadora (Modo Vista Previa) -->
+    <div class="fixed bottom-3 right-3 z-30">
+        <button id="preview-toggle-btn" 
+                type="button"
+                title="Activar/Desactivar modo vista previa para probar todos los días"
+                class="flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium bg-slate-900/80 hover:bg-slate-800 text-blue-100 hover:text-white border border-white/20 backdrop-blur-md shadow-lg transition-all cursor-pointer">
+            <span id="preview-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="preview-label">Bloqueo activo</span>
+        </button>
+    </div>
+
+    <!-- Notificación Toast para días bloqueados -->
+    <div id="toast-container" class="fixed bottom-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-11/12 max-w-md"></div>
+
+    <!-- Modal de Carta / Postal Navideña -->
+    <div id="letter-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-opacity duration-300">
+        <div class="postcard-modal relative w-full max-w-lg rounded-xl shadow-2xl p-6 sm:p-8 text-slate-800 transform transition-all scale-95 opacity-0" id="modal-card">
+            
+            <!-- Botón Cerrar -->
+            <button id="close-modal-btn" type="button" aria-label="Cerrar carta" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-red-800/10 hover:bg-red-800 hover:text-white text-red-900 flex items-center justify-center transition-colors cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Cabecera de la Postal -->
+            <div class="flex items-center justify-between border-b-2 border-red-800/20 pb-4 mb-5 pr-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-green-800 block">Correo Especial de Navidad</span>
+                    <h2 id="modal-day-title" class="font-navidad-titulo text-3xl sm:text-4xl font-bold text-red-800 mt-0.5">
+                        Día 1 de Diciembre
+                    </h2>
+                </div>
+                <!-- Mini sello decorativo dentro de la carta -->
+                <div id="modal-stamp-icon" class="w-16 h-16 p-2 bg-white border-2 border-dashed border-red-700 rounded shadow-sm flex items-center justify-center shrink-0">
+                    <!-- SVG dinámico -->
+                </div>
+            </div>
+
+            <!-- Cuerpo del mensaje romántico -->
+            <div class="space-y-4">
+                <h3 id="modal-subtitle" class="font-serif-elegante text-2xl font-bold text-slate-900 italic">
+                    Título de la sorpresa
+                </h3>
+                
+                <p id="modal-message" class="text-slate-700 leading-relaxed text-base sm:text-lg font-normal">
+                    Aquí aparecerá el mensaje romántico del día.
+                </p>
+
+                <!-- Vale / Plan especial del día -->
+                <div class="mt-4 p-3.5 rounded-lg bg-green-900/10 border border-green-800/30 flex items-center gap-3">
+                    <span class="text-2xl">🎟️</span>
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-green-900 block">Vale / Detalle del día</span>
+                        <span id="modal-coupon-text" class="text-sm font-semibold text-slate-800"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Firma de la carta -->
+            <div class="mt-6 pt-4 border-t border-slate-300/70 flex items-center justify-between">
+                <div class="text-xs text-slate-500">
+                    Matasellos: <span class="font-semibold text-red-800">Polo Norte • Con Amor</span>
+                </div>
+                <div class="font-navidad-cursiva text-2xl text-red-800">
+                    Siempre tuya ❤️
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ============================================================================
+         * PERSONALIZA AQUÍ LOS 24 MENSAJES ROMÁNTICOS PARA TU NOVIO
+         * Puedes cambiar el 'titulo', 'mensaje', 'detalle' o el 'icono' de cada día.
+         * Iconos disponibles: 'tree', 'candy', 'gift', 'reindeer', 'snowman', 
+         * 'star', 'bell', 'holly', 'gingerbread', 'heart', 'mug', 'mistletoe',
+         * 'santahat', 'snowflake', 'candle', 'stocking'
+         * ============================================================================
+         */
+        const ADVENT_MESSAGES = [
+            {
+                day: 1,
+                titulo: "¡Empieza nuestra cuenta atrás!",
+                mensaje: "Hoy empieza diciembre y no hay nadie con quien prefiera compartir esta época tan mágica que contigo. Gracias por iluminar mis días mucho más que todas las luces de Navidad juntas.",
+                detalle: "Vale para un beso navideño.",
+                icono: "tree"
+            },
+            {
+                day: 2,
+                titulo: "Dulce como tú",
+                mensaje: "Si tuviera que elegir entre todos los dulces navideños del mundo o pasar cinco minutos más a tu lado, te elegiría a ti mil veces sin dudarlo.",
+                detalle: "Vale para hacer ula pizza que tanto nos gusta este finde.",
+                icono: "candy"
+            },
+            {
+                day: 3,
+                titulo: "Mi mejor regalo",
+                mensaje: "Aún faltan semanas para Navidad, pero yo siento que me tocó el mejor regalo el día en que llegaste a mi vida. Eres mi persona favorita.",
+                detalle: "Hoy es tu cumpleaños y tienes una sorpresa especial",
+                icono: "gift"
+            },
+            {
+                day: 4,
+                titulo: "Tarde de mantita y peli",
+                mensaje: "El frío de diciembre es la excusa perfecta para pegarnos un poquito más. No importa qué película veamos, mientras sea contigo abrazado a mí.",
+                detalle: "Vale por ir a comer churros con chocolate",
+                icono: "snowman"
+            },
+            {
+                day: 5,
+                titulo: "Brillas con luz propia",
+                mensaje: "Admiro tu forma de ser, tu sonrisa y cómo logras hacerme sentir en casa estés donde estés. Eres la estrella que guía mis días.",
+                detalle: "Vale para ir a cenar al chino.",
+                icono: "star"
+            },
+            {
+                day: 6,
+                titulo: "Aroma a Navidad y café",
+                mensaje: "Ojalá todas mis mañanas empiecen siempre con tu mensaje de buenos días o despertando a tu lado. Eres mi mejor rutina.",
+                detalle: "Todos mis te amos serán siempre para ti.",
+                icono: "mug"
+            },
+            {
+                day: 7,
+                titulo: "Nuestro pequeño equipo",
+                mensaje: "Como Santa y sus renos, hacemos el mejor equipo del mundo. Gracias por apoyarme, escucharme y hacerme reír incluso en los días grises.",
+                detalle: "Vale para dar un paseo nocturno para ver las luces de Navidad de la ciudad.",
+                icono: "reindeer"
+            },
+            {
+                day: 8,
+                titulo: "Bajo el muérdago",
+                mensaje: "Dicen que quien se besa bajo el muérdago tendrá amor todo el año... pero yo pienso besarte todos los días haya muérdago o no.",
+                detalle: "Hoy cumplimos 9 meses. Han sido los mejores de mi vida",
+                icono: "mistletoe"
+            },
+            {
+                day: 9,
+                titulo: "Recuerdos favoritos",
+                mensaje: "Mirando atrás este año, mis mejores recuerdos tienen algo en común: estás tú en todos ellos. Por muchos más diciembres juntos.",
+                detalle: "Te quiero hasta el infinito y más allá",
+                icono: "bell"
+            },
+            {
+                day: 10,
+                titulo: "Hecho con amor",
+                mensaje: "Cada detalle contigo se siente especial. Me encanta cómo me miras y cómo haces que lo cotidiano se vuelva extraordinario.",
+                detalle: "Vale por ir algún día a cine a ver la peli que tu elijas",
+                icono: "gingerbread"
+            },
+            {
+                day: 11,
+                titulo: "Contigo al fin del mundo",
+                mensaje: "No importa el destino, el frío o el plan; si voy de tu mano, sé que va a ser un gran día. Gracias por caminar conmigo.",
+                detalle: "Escapada o ruta improvisada juntos este finde.",
+                icono: "holly"
+            },
+            {
+                day: 12,
+                titulo: "Mitad del camino",
+                mensaje: "¡Ya hemos llegado al ecuador del calendario! Y mi corazón sigue latiendo igual de fuerte cada vez que te veo aparecer.",
+                detalle: "Vale por cumplir un pequeño capricho tuyo hoy.",
+                icono: "heart"
+            },
+            {
+                day: 13,
+                titulo: "Tu sonrisa es mi debilidad",
+                mensaje: "Si supieras lo feliz que me hace verte reír, entenderías por qué siempre intento sacarte una sonrisa. Tienes la risa más bonita del mundo.",
+                detalle: "Vale por hacer algún postre inspirado en Navidad.",
+                icono: "santahat"
+            },
+            {
+                day: 14,
+                titulo: "Mi refugio favorito",
+                mensaje: "Cuando el mundo va demasiado rápido, tus abrazos son el único lugar donde todo se calma. Gracias por ser mi paz.",
+                detalle: "Vale para hacernos una foto los dos guapos con las luces de Navidad.",
+                icono: "tree"
+            },
+            {
+                day: 15,
+                titulo: "Pequeñas grandes cosas",
+                mensaje: "Me enamoran tus detalles, tu forma de cuidarme y lo atento que eres siempre. Eres un novio diez, aunque hoy te doy un infinito.",
+                detalle: "Vale para dormir los dos juntos la siesta sin alarma.",
+                icono: "stocking"
+            },
+            {
+                day: 16,
+                titulo: "La magia eres tú",
+                mensaje: "De pequeño crees que la magia de la Navidad está en los regalos; de mayor descubres que está en compartir la vida con alguien como tú.",
+                detalle: "Eres el mayor regalo que me ha dado la vida.",
+                icono: "mug"
+            },
+            {
+                day: 17,
+                titulo: "Solo una semana más...",
+                mensaje: "Falta muy poquito para Nochebuena y yo ya tengo todo lo que le pedí a la vida: salud, alegría y tenerte a mi lado.",
+                detalle: "Todos los días tengo un regalo porque el estra contigo es el mejor regalo del mundo.",
+                icono: "candle"
+            },
+            {
+                day: 18,
+                titulo: "Orgullosa de ti",
+                mensaje: "Quiero recordarte hoy lo muchísimo que te admiro por todo lo que te esfuerzas cada día. Nunca dejes de creer en ti, porque yo creo en ti al 100%.",
+                detalle: "Brindis especial por todos tus logros de este año.",
+                icono: "star"
+            },
+            {
+                day: 19,
+                titulo: "Cómplices en todo",
+                mensaje: "Me encanta esa mirada que nos echamos cuando pensamos exactamente lo mismo sin decir una palabra. Nuestra conexión es única.",
+                detalle: "Vale por un plan sorpresa preparado por mí.",
+                icono: "reindeer"
+            },
+            {
+                day: 20,
+                titulo: "Calor en invierno",
+                mensaje: "Puede nevar o helar ahí fuera, que mientras me des la mano nunca voy a tener frío. Eres mi sol en pleno diciembre.",
+                detalle: "Hoy tienes pase VIP para elegir qué hacemos toda la tarde.",
+                icono: "snowflake"
+            },
+            {
+                day: 21,
+                titulo: "Solsticio de invierno",
+                mensaje: "Hoy es la noche más larga del año, pero a tu lado las horas siempre se me pasan volando. Ojalá pudiera detener el reloj cuando estamos juntos.",
+                detalle: "Ojalá pasar todas las noches de mi vida junto a ti.",
+                icono: "holly"
+            },
+            {
+                day: 22,
+                titulo: "Mi premio gordo",
+                mensaje: "Hoy es el día de la lotería, pero a mí ya me tocó el premio gordo hace tiempo cuando nos conocimos. ¡No te cambio por nada!",
+                detalle: "Suerte es tenerte a mi lado y haberte conocido.",
+                icono: "gift"
+            },
+            {
+                day: 23,
+                titulo: "Víspera de la magia",
+                mensaje: "Mañana es Nochebuena y solo quería darte las gracias por hacer que este año haya sido inolvidable. Te quiero más de lo que las palabras alcanzan a decir.",
+                detalle: "Vale por cena romántica.",
+                icono: "mistletoe"
+            },
+            {
+                day: 24,
+                titulo: "¡Feliz Nochebuena, mi amor!",
+                mensaje: "Llegamos al último sello de este calendario, pero nuestra historia sigue escribiéndose cada día. Gracias por ser mi compañero, mi mejor amigo y el amor de mi vida. ¡Feliz Navidad!",
+                detalle: "Tu regalo real te espera hoy... ¡y todo mi amor para siempre! ❤️",
+                icono: "heart"
+            }
+        ];
+
+        /**
+         * Colección de ilustraciones SVG navideñas autocontenidas para los sellos postales
+         */
+        const SVG_ICONS = {
+            tree: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><rect x="28" y="48" width="8" height="10" rx="1" fill="#78350f"/><path d="M32 8L14 28H23L11 41H21L9 52H55L43 41H53L41 28H50L32 8Z" fill="#1b5e20" stroke="#052e16" stroke-width="2" stroke-linejoin="round"/><path d="M32 4L34.2 8.5L39 9.2L35.5 12.6L36.3 17.4L32 15.1L27.7 17.4L28.5 12.6L25 9.2L29.8 8.5L32 4Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.2"/><circle cx="27" cy="24" r="2.2" fill="#ef4444"/><circle cx="37" cy="33" r="2.2" fill="#fbbf24"/><circle cx="23" cy="36" r="2.2" fill="#38bdf8"/><circle cx="33" cy="45" r="2.5" fill="#ef4444"/><circle cx="43" cy="47" r="2" fill="#fbbf24"/></svg>',
+            candy: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M38 54V24C38 16.268 31.732 10 24 10C16.268 10 10 16.268 10 24" stroke="#ffffff" stroke-width="9" stroke-linecap="round"/><path d="M38 54V24C38 16.268 31.732 10 24 10C16.268 10 10 16.268 10 24" stroke="#c62828" stroke-width="9" stroke-linecap="round" stroke-dasharray="6 7"/><path d="M38 54V24C38 16.268 31.732 10 24 10C16.268 10 10 16.268 10 24" stroke="#7f1d1d" stroke-width="1.5" stroke-linecap="round"/><path d="M33 34L43 29L41 37L49 40L39 42" fill="#1b5e20" stroke="#052e16" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+            gift: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><rect x="13" y="26" width="38" height="30" rx="3" fill="#c62828" stroke="#7f1d1d" stroke-width="2"/><rect x="10" y="20" width="44" height="8" rx="2" fill="#ef4444" stroke="#7f1d1d" stroke-width="2"/><rect x="29" y="20" width="6" height="36" fill="#fbbf24"/><rect x="13" y="38" width="38" height="5" fill="#fbbf24"/><path d="M32 20C25 11 16 13 19 20H32Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/><path d="M32 20C39 11 48 13 45 20H32Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/></svg>',
+            reindeer: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M22 22L16 10M18 14L12 14M20 18L24 12" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/><path d="M42 22L48 10M46 14L52 14M44 18L40 12" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="32" cy="37" rx="14" ry="16" fill="#b45309" stroke="#451a03" stroke-width="2"/><ellipse cx="32" cy="43" rx="9" ry="7" fill="#fde68a"/><circle cx="26" cy="32" r="2.2" fill="#1e293b"/><circle cx="38" cy="32" r="2.2" fill="#1e293b"/><circle cx="32" cy="41" r="4" fill="#c62828"/><circle cx="30.8" cy="39.8" r="1.2" fill="#fca5a5"/></svg>',
+            snowman: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><circle cx="32" cy="45" r="13" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><circle cx="32" cy="25" r="9.5" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/><rect x="24" y="10" width="16" height="7" rx="1" fill="#1e293b"/><rect x="20" y="16" width="24" height="3" rx="1" fill="#c62828"/><circle cx="29" cy="23" r="1.5" fill="#0f172a"/><circle cx="35" cy="23" r="1.5" fill="#0f172a"/><path d="M32 25L40 27L32 28.5Z" fill="#f97316"/><path d="M23 33H41" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><path d="M37 33V42" stroke="#c62828" stroke-width="3.5" stroke-linecap="round"/><circle cx="32" cy="42" r="1.8" fill="#0f172a"/><circle cx="32" cy="49" r="1.8" fill="#0f172a"/></svg>',
+            star: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 7L39.5 22.5L56.5 25L44.2 37L47.1 54L32 46L16.9 54L19.8 37L7.5 25L24.5 22.5L32 7Z" fill="#fbbf24" stroke="#b45309" stroke-width="2" stroke-linejoin="round"/><path d="M32 13L36.5 23L47 24.5L39.5 32L41.2 42.5L32 37.5" fill="#fef08a" opacity="0.6"/></svg>',
+            bell: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 12C21 12 17 22 15 34L11 43H53L49 34C47 22 43 12 32 12Z" fill="#fbbf24" stroke="#92400e" stroke-width="2" stroke-linejoin="round"/><circle cx="32" cy="47" r="4.5" fill="#d97706" stroke="#92400e" stroke-width="1.5"/><path d="M24 12C21 8 15 10 18 15" stroke="#c62828" stroke-width="3" stroke-linecap="round"/><path d="M40 12C43 8 49 10 46 15" stroke="#c62828" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="12" r="3.5" fill="#c62828"/></svg>',
+            holly: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 32C20 18 10 22 12 34C18 35 23 39 28 44C30 39 31 35 32 32Z" fill="#1b5e20" stroke="#052e16" stroke-width="1.8"/><path d="M32 32C44 18 54 22 52 34C46 35 41 39 36 44C34 39 33 35 32 32Z" fill="#2e7d32" stroke="#052e16" stroke-width="1.8"/><circle cx="32" cy="31" r="4.5" fill="#c62828" stroke="#7f1d1d" stroke-width="1.5"/><circle cx="27" cy="36" r="4" fill="#ef4444" stroke="#7f1d1d" stroke-width="1.5"/><circle cx="37" cy="36" r="4" fill="#c62828" stroke="#7f1d1d" stroke-width="1.5"/></svg>',
+            gingerbread: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><circle cx="32" cy="17" r="9" fill="#b45309" stroke="#451a03" stroke-width="2"/><path d="M14 29H50M24 27V53M40 27V53M24 27H40V42H24V27Z" stroke="#b45309" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="29" cy="15" r="1.5" fill="#ffffff"/><circle cx="35" cy="15" r="1.5" fill="#ffffff"/><path d="M29 19C30.5 21 33.5 21 35 19" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/><circle cx="32" cy="31" r="2" fill="#c62828"/><circle cx="32" cy="38" r="2" fill="#1b5e20"/></svg>',
+            heart: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 53C32 53 10 39 10 23.5C10 16.5 15.5 11 22.5 11C26.8 11 30.5 13.2 32 16.5C33.5 13.2 37.2 11 41.5 11C48.5 11 54 16.5 54 23.5C54 39 32 53 32 53Z" fill="#c62828" stroke="#7f1d1d" stroke-width="2"/><path d="M18 19C16 21 16 24 17 26" stroke="#fca5a5" stroke-width="2.5" stroke-linecap="round"/></svg>',
+            mug: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M44 27H49C52.3 27 55 29.7 55 33V39C55 42.3 52.3 45 49 45H44" stroke="#c62828" stroke-width="4" stroke-linecap="round"/><rect x="14" y="23" width="30" height="29" rx="4" fill="#c62828" stroke="#7f1d1d" stroke-width="2"/><path d="M22 16C22 12 25 12 25 9M30 16C30 12 33 12 33 9M38 16C38 12 41 12 41 9" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/><path d="M29 33C29 33 22 38 22 42C22 44.2 23.8 46 26 46C27.5 46 28.6 45.2 29 44.2C29.4 45.2 30.5 46 32 46C34.2 46 36 44.2 36 42C36 38 29 33 29 33Z" fill="#ffffff"/></svg>',
+            mistletoe: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 14V26" stroke="#78350f" stroke-width="2.5" stroke-linecap="round"/><path d="M32 24C22 24 16 32 18 42C25 40 30 33 32 24Z" fill="#1b5e20" stroke="#052e16" stroke-width="1.8"/><path d="M32 24C42 24 48 32 46 42C39 40 34 33 32 24Z" fill="#2e7d32" stroke="#052e16" stroke-width="1.8"/><circle cx="29" cy="43" r="3.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><circle cx="35" cy="45" r="3.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><circle cx="32" cy="39" r="3.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/><path d="M26 16L38 20M38 16L26 20" stroke="#c62828" stroke-width="3" stroke-linecap="round"/></svg>',
+            santahat: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M14 42C16 24 28 14 44 16C48 16.5 52 22 52 28C46 25 40 28 42 42H14Z" fill="#c62828" stroke="#7f1d1d" stroke-width="2" stroke-linejoin="round"/><rect x="11" y="40" width="36" height="9" rx="4.5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/><circle cx="51" cy="30" r="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/></svg>',
+            snowflake: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M32 8V56M11 20L53 44M53 20L11 44" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round"/><path d="M26 14L32 20L38 14M26 50L32 44L38 50M14 27L21 26L18 19M50 37L43 38L46 45M46 19L43 26L50 27M18 45L21 38L14 37" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+            candle: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><rect x="23" y="26" width="18" height="26" rx="2" fill="#c62828" stroke="#7f1d1d" stroke-width="2"/><path d="M23 30C27 33 31 28 35 31C38 33 41 30 41 30" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/><path d="M32 10C32 10 27 16 27 20C27 22.8 29.2 25 32 25C34.8 25 37 22.8 37 20C37 16 32 10 32 10Z" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><rect x="17" y="51" width="30" height="4" rx="2" fill="#d4af37"/></svg>',
+            stocking: '<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14" fill="none"><path d="M24 18H40V38C40 46 34 52 24 52H18C13.5 52 10 48.5 10 44C10 39.5 13.5 36 18 36H24V18Z" fill="#c62828" stroke="#7f1d1d" stroke-width="2" stroke-linejoin="round"/><rect x="21" y="12" width="22" height="8" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.8"/><path d="M24 26H40" stroke="#1b5e20" stroke-width="4"/></svg>'
+        };
+
+        /**
+         * Acceso seguro a localStorage con respaldo en memoria (evita errores en iframes o file://)
+         */
+        const STORAGE_KEY = 'advent_opened_days_navidad';
+        let inMemoryOpenedDays = [];
+
+        function getOpenedDays() {
+            try {
+                const raw = window.localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        inMemoryOpenedDays = parsed;
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                // Si el entorno bloquea localStorage, usamos el respaldo en memoria
+            }
+            return inMemoryOpenedDays;
+        }
+
+        function saveOpenedDays(daysArray) {
+            inMemoryOpenedDays = daysArray;
+            try {
+                window.localStorage.setItem(STORAGE_KEY, JSON.stringify(daysArray));
+            } catch (e) {
+                // Ignorar de forma segura si localStorage no está disponible
+            }
+        }
+
+        // Estado global de la aplicación
+        let previewMode = false;
+        let toastTimeout = null;
+
+        /**
+         * Comprueba si un día específico (1..24) está desbloqueado según la fecha real.
+         * - Solo se abre en diciembre (month === 11) cuando currentDay >= dayNumber.
+         * - Antes de diciembre (ej. noviembre, month < 11), todos están estrictamente bloqueados.
+         * - Si previewMode está activo, permite abrir todos para probar.
+         */
+        function isDayUnlocked(dayNumber) {
+            if (previewMode) return true;
+
+            const now = new Date();
+            const month = now.getMonth(); // 0 = Enero ... 10 = Noviembre, 11 = Diciembre
+            const currentDay = now.getDate();
+
+            if (month === 11 && currentDay >= dayNumber) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Genera los copos de nieve CSS en el fondo
+         */
+        function createSnowflakes() {
+            const container = document.getElementById('snowflakes-container');
+            if (!container) return;
+
+            const symbols = ['❄', '❅', '❆', '•'];
+            const count = 38;
+            let html = '';
+
+            for (let i = 0; i < count; i++) {
+                const left = (Math.random() * 100).toFixed(2);
+                const duration = (Math.random() * 10 + 9).toFixed(2);
+                const delay = (Math.random() * -15).toFixed(2);
+                const size = (Math.random() * 12 + 10).toFixed(0);
+                const opacity = (Math.random() * 0.55 + 0.25).toFixed(2);
+                const symbol = symbols[i % symbols.length];
+
+                html += `<span class="snowflake" style="left:${left}%; animation-duration:${duration}s; animation-delay:${delay}s; font-size:${size}px; opacity:${opacity};">${symbol}</span>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Actualiza la fecha actual y el contador de sellos abiertos en la cabecera
+         */
+        function updateHeaderStatus() {
+            const dateDisplayEl = document.getElementById('current-date-display');
+            const openedCounterEl = document.getElementById('opened-counter');
+            const openedDays = getOpenedDays();
+
+            const now = new Date();
+            const monthsEs = [
+                'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+            ];
+            const formattedDate = `Hoy es ${now.getDate()} de ${monthsEs[now.getMonth()]} de ${now.getFullYear()}`;
+
+            if (dateDisplayEl) {
+                dateDisplayEl.textContent = formattedDate;
+            }
+            if (openedCounterEl) {
+                openedCounterEl.textContent = `${openedDays.length} de 24 sellos abiertos`;
+            }
+        }
+
+        /**
+         * Renderiza los 24 sellos postales navideños en la cuadrícula
+         */
+        function renderCalendar() {
+            const gridEl = document.getElementById('calendar-grid');
+            if (!gridEl) return;
+
+            const openedDays = getOpenedDays();
+            const themes = ['theme-red', 'theme-green', 'theme-cream'];
+            gridEl.innerHTML = '';
+
+            ADVENT_MESSAGES.forEach((item, index) => {
+                const unlocked = isDayUnlocked(item.day);
+                const isOpened = openedDays.includes(item.day);
+                const themeClass = themes[index % themes.length];
+                const dayFormatted = String(item.day).padStart(2, '0');
+
+                const wrapper = document.createElement('div');
+                wrapper.className = `stamp-wrapper ${themeClass}`;
+                wrapper.id = `stamp-wrapper-${item.day}`;
+
+                let statusBadgeText = `🔒 Dic ${dayFormatted}`;
+                if (isOpened) {
+                    statusBadgeText = '❤️ Leído';
+                } else if (unlocked) {
+                    statusBadgeText = '★ Abrir';
+                }
+
+                wrapper.innerHTML = `
+                    <div class="postage-stamp ${!unlocked ? 'stamp-locked' : ''} aspect-[4/5]" 
+                         data-day="${item.day}"
+                         role="button"
+                         tabindex="0"
+                         aria-label="Sello del día ${item.day} de diciembre">
+                        
+                        <div class="stamp-inner">
+                            <!-- Matasellos circular decorativo -->
+                            <svg class="postmark w-16 h-16 -top-2 -right-2 text-current" viewBox="0 0 80 80" fill="none">
+                                <circle cx="40" cy="40" r="26" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
+                                <circle cx="40" cy="40" r="20" stroke="currentColor" stroke-width="1"/>
+                                <path d="M5 35Q20 30 35 35T65 35" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M5 43Q20 38 35 43T65 43" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+
+                            <!-- Fila superior: Número del día (01..24) y DICIEMBRE -->
+                            <div class="flex items-start justify-between z-10">
+                                <span class="stamp-badge font-navidad-titulo text-xl sm:text-2xl font-bold px-2.5 py-0.5 rounded shadow-sm leading-none">
+                                    ${dayFormatted}
+                                </span>
+                                <span class="text-[10px] sm:text-xs font-serif-elegante font-bold uppercase tracking-wider opacity-80">
+                                    DICIEMBRE
+                                </span>
+                            </div>
+
+                            <!-- Centro: Ilustración navideña SVG -->
+                            <div class="my-auto flex flex-col items-center justify-center py-1 transition-transform duration-300">
+                                ${SVG_ICONS[item.icono] || SVG_ICONS.tree}
+                            </div>
+
+                            <!-- Pie del sello: Correo Navideño y estado -->
+                            <div class="flex items-center justify-between border-t border-current/20 pt-1.5 text-[10px] font-bold tracking-wider uppercase opacity-85">
+                                <span>Correo Navideño</span>
+                                <span>${statusBadgeText}</span>
+                            </div>
+
+                            <!-- Sello de "Abierto" si ya lo leyó -->
+                            ${isOpened ? '<div class="opened-seal">Abierto ❤️</div>' : ''}
+                        </div>
+                    </div>
+                `;
+
+                const stampCard = wrapper.querySelector('.postage-stamp');
+                stampCard.addEventListener('click', () => handleStampClick(item.day));
+                stampCard.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleStampClick(item.day);
+                    }
+                });
+
+                gridEl.appendChild(wrapper);
+            });
+
+            updateHeaderStatus();
+        }
+
+        /**
+         * Maneja el clic en cada sello postal
+         */
+        function handleStampClick(dayNumber) {
+            const wrapper = document.getElementById(`stamp-wrapper-${dayNumber}`);
+
+            if (!isDayUnlocked(dayNumber)) {
+                if (wrapper) {
+                    wrapper.classList.remove('shake-animation');
+                    void wrapper.offsetWidth; // Reinicia animación CSS
+                    wrapper.classList.add('shake-animation');
+                }
+                showRomanticToast(`¡Aún no! Este sello se abre el ${dayNumber} de diciembre ❤️`);
+                return;
+            }
+
+            const openedDays = getOpenedDays();
+            if (!openedDays.includes(dayNumber)) {
+                openedDays.push(dayNumber);
+                saveOpenedDays(openedDays);
+                renderCalendar();
+            }
+
+            openLetterModal(dayNumber);
+        }
+
+        /**
+         * Muestra una notificación amigable en la parte inferior
+         */
+        function showRomanticToast(message) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            container.innerHTML = `
+                <div class="toast-enter bg-red-900/95 text-amber-50 border-2 border-amber-300/60 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md">
+                    <span class="text-xl shrink-0">💌</span>
+                    <p class="text-sm sm:text-base font-medium leading-snug">${message}</p>
+                </div>
+            `;
+
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                container.innerHTML = '';
+            }, 3400);
+        }
+
+        /**
+         * Abre la modal con la carta romántica del día seleccionado
+         */
+        function openLetterModal(dayNumber) {
+            const data = ADVENT_MESSAGES.find(m => m.day === dayNumber);
+            const modalEl = document.getElementById('letter-modal');
+            const modalCardEl = document.getElementById('modal-card');
+            if (!data || !modalEl || !modalCardEl) return;
+
+            document.getElementById('modal-day-title').textContent = `Día ${data.day} de Diciembre`;
+            document.getElementById('modal-subtitle').textContent = data.titulo;
+            document.getElementById('modal-message').textContent = data.mensaje;
+            document.getElementById('modal-coupon-text').textContent = data.detalle;
+            document.getElementById('modal-stamp-icon').innerHTML = SVG_ICONS[data.icono] || SVG_ICONS.heart;
+
+            modalEl.classList.remove('hidden');
+            modalEl.classList.add('flex');
+
+            requestAnimationFrame(() => {
+                modalCardEl.classList.remove('scale-95', 'opacity-0');
+                modalCardEl.classList.add('scale-100', 'opacity-100');
+            });
+        }
+
+        /**
+         * Cierra la modal de carta
+         */
+        function closeLetterModal() {
+            const modalEl = document.getElementById('letter-modal');
+            const modalCardEl = document.getElementById('modal-card');
+            if (!modalEl || !modalCardEl) return;
+
+            modalCardEl.classList.remove('scale-100', 'opacity-100');
+            modalCardEl.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                modalEl.classList.add('hidden');
+                modalEl.classList.remove('flex');
+            }, 200);
+        }
+
+        /**
+         * Alterna el modo vista previa para probar todos los mensajes antes de diciembre
+         */
+        function togglePreviewMode() {
+            previewMode = !previewMode;
+            const dot = document.getElementById('preview-dot');
+            const label = document.getElementById('preview-label');
+
+            if (previewMode) {
+                dot.classList.remove('bg-emerald-400');
+                dot.classList.add('bg-amber-400', 'animate-ping');
+                label.textContent = 'Modo vista previa';
+                showRomanticToast('Modo vista previa activado: ya puedes probar cualquier día ✨');
+            } else {
+                dot.classList.remove('bg-amber-400', 'animate-ping');
+                dot.classList.add('bg-emerald-400');
+                label.textContent = 'Bloqueo activo';
+                showRomanticToast('Bloqueo por fecha real restaurado 🔒');
+            }
+
+            renderCalendar();
+        }
+
+        /**
+         * Inicialización segura cuando el DOM está completamente listo
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnowflakes();
+            renderCalendar();
+
+            const previewBtn = document.getElementById('preview-toggle-btn');
+            if (previewBtn) {
+                previewBtn.addEventListener('click', togglePreviewMode);
+            }
+
+            const closeBtn = document.getElementById('close-modal-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeLetterModal);
+            }
+
+            const modalEl = document.getElementById('letter-modal');
+            if (modalEl) {
+                modalEl.addEventListener('click', (event) => {
+                    if (event.target === modalEl) {
+                        closeLetterModal();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalEl && !modalEl.classList.contains('hidden')) {
+                    closeLetterModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
